@@ -1,0 +1,13 @@
+<p>dashboard works!</p>
+      <h2>Perfil de Usuario</h2>
+
+
+        <div *ngFor="let item of list; let i = index">
+           <h2>{{ item.username }}</h2>
+        </div>
+
+
+        <label>Usuario</label>
+
+
+      <button (click)="logout()">Cerrar sesión</button>

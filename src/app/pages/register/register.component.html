@@ -1,0 +1,30 @@
+<p>register works!</p>
+<div class="form-container">
+      <h2>Registro de Usuario</h2>
+
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <label>Email</label>
+        <input type="email" formControlName="email" placeholder="Correo electrónico" />
+        <div *ngIf="email.invalid && email.touched" class="error">Email inválido</div>
+
+        <label>Usuario</label>
+        <input type="text" formControlName="username" placeholder="Nombre de usuario" />
+        <div *ngIf="username.invalid && username.touched" class="error">Campo obligatorio</div>
+
+        <label>telefono</label>
+        <input type="number" formControlName="phone" placeholder="telefono de usuario" />
+        <div *ngIf="phone.invalid && phone.touched" class="error">Campo obligatorio</div>
+
+        <label>Contraseña</label>
+        <input type="password" formControlName="password" placeholder="Contraseña" />
+        <div *ngIf="password.invalid && password.touched" class="error">Campo obligatorio</div>
+
+        <label>Confirmar Contraseña</label>
+        <input type="password" formControlName="password2" placeholder="Repite la contraseña" />
+        <div *ngIf="password2.invalid && password2.touched" class="error">Campo obligatorio</div>
+
+        <button type="submit" [disabled]="registerForm.invalid">Registrar</button>
+      </form>
+
+      <p><a routerLink="/login">Volver a login</a></p>
+</div>
