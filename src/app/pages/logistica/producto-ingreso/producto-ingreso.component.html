@@ -1,0 +1,44 @@
+<p>producto-ingreso works!</p>
+<div class="form-container">
+      <h2>Registrar Propiedad</h2>
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+        <!-- Nombre -->
+        <div class="form-group">
+          <label>Nombre</label>
+          <input type="text" formControlName="producto_nombre" placeholder="Ej: Casa principal">
+          <small *ngIf="form.get('nombre')?.touched && form.get('nombre')?.hasError('required')" class="error">
+            El nombre es obligatorio
+          </small>
+          <small *ngIf="form.get('nombre')?.hasError('minlength')" class="error">
+            Debe tener al menos 3 caracteres
+          </small>
+        </div>
+
+        <!-- Color -->
+        <div class="form-group">
+          <label>Color</label>
+          <input type="text" formControlName="producto_color" placeholder="Ej: Blanco">
+          <small *ngIf="form.get('color')?.touched && form.get('color')?.hasError('required')" class="error">
+            El color es obligatorio
+          </small>
+        </div>
+
+        <!-- Metros -->
+        <div class="form-group">
+          <label>Metros cuadrados</label>
+          <input type="number" formControlName="producto_metros" placeholder="Ej: 120">
+          <small *ngIf="form.get('metros')?.touched && form.get('metros')?.hasError('required')" class="error">
+            Los metros son obligatorios
+          </small>
+          <small *ngIf="form.get('metros')?.hasError('min')" class="error">
+            Debe ser mayor a 0
+          </small>
+        </div>
+
+        <!-- Botón -->
+        <button type="submit" [disabled]="form.invalid">Guardar</button>
+
+      </form>
+    </div>
