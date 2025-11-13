@@ -1,1 +1,38 @@
-<p>producto-totales works!</p>
+     <h2>Dashboard de Productos</h2>
+
+    <!-- Filtro -->
+    <div style="margin-bottom: 20px;">
+      <form [formGroup]="filtroForm">
+        <label>
+          Nombre:
+          <input type="text" formControlName="nombre">
+        </label>
+        <label style="margin-left: 20px;">
+          Color:
+          <input type="text" formControlName="color" placeholder="Ej: rojo">
+        </label>
+      </form>
+    </div>
+
+    <!-- Tabla -->
+    <table border="1" cellpadding="8" cellspacing="0">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Nombre</th>
+          <th>Color</th>
+          <th>Metros</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let producto of productosFiltrados; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ producto.producto_nombre }}</td>
+          <td>{{ producto.producto_color }}</td>
+          <td>{{ producto.producto_metros }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Gráfico -->
+    <div #chart style="margin-top: 20px;"></div>

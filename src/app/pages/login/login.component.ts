@@ -1,8 +1,8 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { ReactiveFormsModule, FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/auth/auth.service';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -28,7 +28,7 @@ export class Login implements OnInit {
 
   onSubmit() {
     if (this.loginForm.valid) {
-      this.auth.login(this.loginForm.value as any).subscribe({
+      this.auth.login(this.loginForm.value).subscribe({
         next: () => this.router.navigate(['/dashboard']),
         error: () => alert('Credenciales incorrectas'),
       });

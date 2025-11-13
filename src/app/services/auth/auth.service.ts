@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
-import { User, AuthResponse } from '../interfaces/users'
+import { AuthResponse, User } from '../../interfaces/users';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private apiUrl = 'http://localhost:8000/api/auth';
-  private tokenKey = 'accessToken';
+  private tokenKey = 'access';
 
   constructor(private http: HttpClient) {}
 
@@ -20,6 +20,7 @@ export class AuthService {
     return this.http.post<AuthResponse>(`${this.apiUrl}/login/`, credentials).pipe(
       tap((res) => {
         localStorage.setItem(this.tokenKey, res.access);
+        localStorage.setItem('refresh', res.refresh);
       })
     );
   }
@@ -37,9 +38,14 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem(this.tokenKey);
+     localStorage.removeItem('refresh');
   }
 
   isLoggedIn(): boolean {
+    return !!this.getToken();
+  }
+
+  isAuthenticated(): boolean {
     return !!this.getToken();
   }
 }

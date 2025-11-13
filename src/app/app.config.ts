@@ -3,15 +3,15 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { ErrorInterceptor } from './services/error.interceptor';
-import { TokenInterceptor } from './services/token.intercepor';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
+import { tokenInterceptor } from './services/token.intercepor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
       provideRouter(routes),
-        provideHttpClient(withInterceptorsFromDi()),
-        TokenInterceptor, // necesario para DI
+        provideHttpClient(withInterceptors([tokenInterceptor])),
+
         ErrorInterceptor
   ],
 };

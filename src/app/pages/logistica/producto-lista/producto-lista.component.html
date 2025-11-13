@@ -1,1 +1,45 @@
-<p>producto-lista works!</p>
+<h2>Lista de Productos</h2>
+
+<table border="1" cellpadding="8" cellspacing="0">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>ID</th>
+      <th>Nombre</th>
+      <th>Metros</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let producto of productos; let i = index">
+      <td>{{ i + 1 }}</td>
+      <td>{{ producto.id }}</td>
+      <td>{{ producto.producto_nombre }}</td>
+      <td>{{ producto.producto_metros }}</td>
+      <td>
+        <button (click)="seleccionarProducto(producto)">Editar</button>
+        <button *ngIf="producto.id !== undefined" (click)="eliminarProducto(producto.id)">Eliminar</button>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Formulario de edición -->
+<div *ngIf="productoSeleccionado" style="margin-top: 20px; border: 1px solid #ccc; padding: 15px; width: 300px;">
+  <h3>Editar Producto</h3>
+  <form [formGroup]="form" (ngSubmit)="actualizarProducto()">
+    <div>
+      <label for="nombre">Nombre:</label><br>
+      <input type="text" id="nombre" formControlName="producto_nombre">
+    </div>
+    <br>
+    <div>
+      <label for="precio">Metros:</label><br>
+      <input type="number" id="precio" formControlName="producto_metros">
+    </div>
+    <br>
+    <button type="submit" [disabled]="form.invalid">Actualizar</button>
+    <button type="button" (click)="productoSeleccionado = undefined; form.reset()">Cancelar</button>
+  </form>
+</div>

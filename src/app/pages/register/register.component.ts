@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/auth/auth.service';
 @Component({
   selector: 'app-register',
   imports: [CommonModule, ReactiveFormsModule],
@@ -46,7 +46,10 @@ export class Register implements OnInit {
           this.router.navigate(['/login']);
         },
         error: (err) => alert(JSON.stringify(err.error))
+
       });
+    console.log(this.registerForm.value)
+
     }
   }
 }

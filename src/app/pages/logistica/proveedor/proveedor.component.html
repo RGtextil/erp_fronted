@@ -1,1 +1,68 @@
 <p>proveedor works!</p>
+<p>producto-ingreso works!</p>
+<div class="form-container">
+      <h2>Registrar Propiedad</h2>
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+        <!-- Nombre -->
+        <div class="form-group">
+          <label>Nombre</label>
+          <input type="text" formControlName="nombre" placeholder="Ej: Casa principal">
+          <small *ngIf="form.get('nombre')?.touched && form.get('nombre')?.hasError('required')" class="error">
+            El nombre es obligatorio
+          </small>
+          <small *ngIf="form.get('nombre')?.hasError('minlength')" class="error">
+            Debe tener al menos 3 caracteres
+          </small>
+        </div>
+
+        <!-- Color -->
+        <div class="form-group">
+          <label>direccion</label>
+          <input type="text" formControlName="direccion" placeholder="Ej: Blanco">
+          <small *ngIf="form.get('direccion')?.touched && form.get('direccion')?.hasError('required')" class="error">
+            El color es obligatorio
+          </small>
+        </div>
+
+        <!-- Metros -->
+        <div class="form-group">
+          <label>telefono</label>
+          <input type="number" formControlName="telefono" placeholder="Ej: 120">
+          <small *ngIf="form.get('telefono')?.touched && form.get('telefono')?.hasError('required')" class="error">
+            Los metros son obligatorios
+          </small>
+          <small *ngIf="form.get('telefono')?.hasError('min')" class="error">
+            Debe ser mayor a 0
+          </small>
+        </div>
+
+        <!-- Botón -->
+        <button type="submit" [disabled]="form.invalid">Guardar</button>
+
+      </form>
+    </div>
+
+<table border="1" cellpadding="8" cellspacing="0">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>ID</th>
+      <th>Nombre</th>
+      <th>Metros</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let producto of proveedores; let i = index">
+      <td>{{ i + 1 }}</td>
+      <td>{{ producto.nombre}}</td>
+      <td>{{ producto.direccion}}</td>
+      <td>{{ producto.telefono}}</td>
+      <td>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
