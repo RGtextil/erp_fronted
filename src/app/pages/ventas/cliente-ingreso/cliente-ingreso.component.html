@@ -1,0 +1,44 @@
+<p>cliente-ingreso works!</p>
+<div class="form-container">
+      <h2>Registrar Propiedad</h2>
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+        <!-- Nombre -->
+        <div class="form-group">
+          <label>Nombre</label>
+          <input type="text" formControlName="nombre" placeholder="Ej: cliente principal">
+          <small *ngIf="form.get('nombre')?.touched && form.get('nombre')?.hasError('required')" class="error">
+            El nombre es obligatorio
+          </small>
+          <small *ngIf="form.get('nombre')?.hasError('minlength')" class="error">
+            Debe tener al menos 3 caracteres
+          </small>
+        </div>
+
+        <!-- Color -->
+        <div class="form-group">
+          <label>Correo</label>
+          <input type="email" formControlName="correo" placeholder="Ej: Blanco">
+          <small *ngIf="form.get('correo')?.touched && form.get('correo')?.hasError('required')" class="error">
+            El correo es obligatorio
+          </small>
+        </div>
+
+        <!-- Metros -->
+        <div class="form-group">
+          <label>telefono</label>
+          <input type="number" formControlName="telefono" placeholder="Ej: 120">
+          <small *ngIf="form.get('telefono')?.touched && form.get('telefono')?.hasError('required')" class="error">
+            Los telefono son obligatorios
+          </small>
+          <small *ngIf="form.get('telefono')?.hasError('min')" class="error">
+            Debe ser mayor a 0
+          </small>
+        </div>
+
+        <!-- Botón -->
+        <button type="submit" [disabled]="form.invalid">Guardar</button>
+
+      </form>
+    </div>
