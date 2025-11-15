@@ -1,0 +1,31 @@
+select {
+  width: 300px;
+  padding: 5px 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  cursor: pointer;
+  outline: none;
+}
+
+/* Opciones dentro del select */
+select option {
+  padding: 5px;
+}
+
+/* Efecto hover en opciones */
+select option:hover {
+  background-color: #f0f0f0;
+}
+
+/* Input de solo lectura con estilo */
+input[readonly] {
+  width: 300px;
+  padding: 5px 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  cursor: not-allowed;
+}

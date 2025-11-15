@@ -1,9 +1,13 @@
 import { Component, inject } from '@angular/core';
 import { Clientes } from '../../../interfaces/clientes';
 import { ClienteService } from '../../../services/clientes/cliente.service';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
+import { ProductoService } from '../../../services/producto/producto.service';
+import { Producto } from '../../../interfaces/producto';
+import { PedidoClienteService } from '../../../services/pedidos/pedido-cliente.service';
+import { Pedido } from '../../../interfaces/pedido';
 @Component({
   selector: 'app-pedido',
   standalone: true,
@@ -12,40 +16,100 @@ import { CommonModule } from '@angular/common';
   styleUrl: './pedido.component.css'
 })
 export class PedidoComponent {
-  productos: Clientes[] = [];
-  clienteService = inject(ClienteService)
-  // Lista original de clientes
+  
+  clienteService = inject(ClienteService);
+  productoServicio = inject(ProductoService);
+  pedidoServicio = inject(PedidoClienteService)
+
+  listaServicios: Clientes[] = [];
+  listaProductos: Producto[] = [];
+  
+  formCliente!: FormGroup;
+
+  constructor(private fb: FormBuilder) {}
+
+  ngOnInit() {
+    this.cargarClientes();
+    this.cargarProducto();
+  
+    this.formCliente = this.fb.group({
+      cliente: [{ value: '', disabled: true }],  // SOLO LECTURA
+      //cliente: ['', [Validators.required]],
+      clientes: [[]], // select múltiple
+      tela: [{ value: '', disabled: true }],  // SOLO LECTURA
+      //tela: [[Validators.required]],
+      productos: [[]], // select múltiple
+      color: [{ value: '', disabled: true }],  // SOLO LECTURA
+      //color: [[Validators.required]],
+      colores: [[]], // select múltiple
+      cantidad: [[Validators.required, Validators.min(0)]],
+    });
+
+    // Cada vez que cambia la selección, actualiza el input
+    this.formCliente.get('clientes')?.valueChanges.subscribe(values => {
+      const seleccionados = this.listaServicios
+        .filter(s => values?.includes(s.id))
+        .map(s => s.nombre)
+        .join(', ');
+
+      this.formCliente.patchValue({ cliente: seleccionados }, { emitEvent: false });
+     });
 
 
-  // Lista filtrada
-  clientesFiltrados: Clientes[] = [];
-  filtroControl = new FormControl('');
-  // Texto del filtro
-  filtro: string = '';
+    this.formCliente.get('productos')?.valueChanges.subscribe(values => {
+      const seleccionados = this.listaProductos
+        .filter(s => values?.includes(s.id))
+        .map(s => s.producto_nombre)
+        .join(', ');
 
-  ngOnInit(): void {
-    this.cargarProductos()
-    this.clientesFiltrados = this.productos; // Mostrar todos al inicio
-    // Escuchar cambios del filtro
-    this.filtroControl.valueChanges
-      .pipe(debounceTime(200)) // retrasa un poco para no filtrar en cada tecla
-      .subscribe(valor => {
-        this.aplicarFiltro(valor || '');
-      });
-  }
-  cargarProductos(): void {
-    this.clienteService.getAll().subscribe({
-      next: data => this.productos = data,
-      error: err => console.error('Error cargando productos', err)
+      this.formCliente.patchValue({ tela: seleccionados }, { emitEvent: false });
+    });
+
+    this.formCliente.get('colores')?.valueChanges.subscribe(values => {
+      const seleccionados = this.listaProductos
+        .filter(s => values?.includes(s.id))
+        .map(s => s.producto_color)
+        .join(', ');
+
+      this.formCliente.patchValue({ color: seleccionados }, { emitEvent: false });
     });
   }
- 
-  aplicarFiltro(texto: string): void {
-    const filtro = texto.toLowerCase();
-    this.clientesFiltrados = this.productos.filter(cliente =>
-      cliente.nombre.toLowerCase().includes(filtro) ||
-      cliente.correo.toLowerCase().includes(filtro) ||
-      cliente.telefono.toString().includes(filtro)
-    );
+
+  cargarClientes() {
+    this.clienteService.getAll().subscribe((res) => {
+      this.listaServicios = res;
+    });
   }
+
+  cargarProducto(){
+    this.productoServicio.getAll().subscribe((res) => {
+      this.listaProductos = res
+      }
+    )
+  }
+guardar() {
+  if (this.formCliente.invalid) return;
+
+  // Creamos el objeto Pedido con fecha automática
+  const payload: Pedido = {
+    cliente: this.formCliente.get('cliente')?.value,
+    tela: this.formCliente.get('tela')?.value,
+    color: this.formCliente.get('color')?.value,
+    cantidad: this.formCliente.get('cantidad')?.value,
+    fecha_pedido: new Date().toISOString() // fecha y hora actual
+  };
+
+  // Enviar al servicio
+  this.pedidoServicio.create(payload).subscribe({
+    next: (res) => {
+      console.log('Guardado correctamente', res);
+      this.formCliente.reset(); // reinicia el formulario
+    },
+    error: (err) => console.error('Error al guardar:', err)
+  });
+
+  console.log("Datos enviados:", payload);
+}
+
+
 }

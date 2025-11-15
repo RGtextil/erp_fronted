@@ -1,13 +1,14 @@
+<p>producto-pedido works!</p>
 <p>pedido works!</p>
 
-<form [formGroup]="formCliente" (ngSubmit)="guardar()">
+<form [formGroup]="formProveedor" (ngSubmit)="guardar()">
 
-  <label>Cliente seleccionados:</label>
-  <input type="text" formControlName="cliente" readonly />
+  <label>Proveedor seleccionados:</label>
+  <input type="text" formControlName="proveedor" readonly />
 
-  <label>Clientes:</label>
-  <select formControlName="clientes" multiple>
-    <option *ngFor="let s of listaServicios" [value]="s.id">
+  <label>Proveedores:</label>
+  <select formControlName="proveedores" multiple>
+    <option *ngFor="let s of listaProveedores" [value]="s.id">
       {{ s.nombre }}
     </option>
   </select>
@@ -36,10 +37,10 @@
      <!-- Metros -->
           <label>metros</label>
           <input type="number" formControlName="cantidad" placeholder="Ej: 120">
-          <small *ngIf="formCliente.get('cantidad')?.touched && formCliente.get('cantidad')?.hasError('required')" class="error">
+          <small *ngIf="formProveedor.get('cantidad')?.touched && formProveedor.get('cantidad')?.hasError('required')" class="error">
             Los metros son obligatorios
           </small>
-          <small *ngIf="formCliente.get('cantidad')?.hasError('min')" class="error">
+          <small *ngIf="formProveedor.get('cantidad')?.hasError('min')" class="error">
             Debe ser mayor a 0
           </small>
 

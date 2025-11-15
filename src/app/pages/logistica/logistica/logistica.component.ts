@@ -24,4 +24,8 @@ export class LogisticaComponent {
   proveedores(){
       this.router.navigate(['/proveedores'])
   }
+
+  pedidos(){
+      this.router.navigate(['/pedidosproveedor'])
+  }
 }

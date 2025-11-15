@@ -1,5 +1,5 @@
-export interface Pedido {
-    cliente: string;
+export interface PedidoProveedor {
+    proveedor: string;
     tela: string;
     color: string;
     cantidad: number;

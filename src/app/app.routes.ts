@@ -12,6 +12,7 @@ import { VentasComponent } from './pages/ventas/ventas/ventas.component';
 import { ClienteIngresoComponent } from './pages/ventas/cliente-ingreso/cliente-ingreso.component';
 import { ClienteListaComponent } from './pages/ventas/cliente-lista/cliente-lista.component';
 import { PedidoComponent } from './pages/ventas/pedido/pedido.component';
+import { ProductoPedidoComponent } from './pages/logistica/producto-pedido/producto-pedido.component';
 
 
 export const routes: Routes = [
@@ -23,11 +24,13 @@ export const routes: Routes = [
   { path: 'productoingreso', component: ProductoIngresoComponent, canActivate: [authGuard] },
   { path: 'productolista', component: ProductoListaComponent},
   { path: 'productototales', component: ProductoTotales},
+  { path: 'proveedores', component: ProveedorComponent},
+  { path: 'pedidosproveedor', component: ProductoPedidoComponent},
 
-  { path: 'ventas', component:  VentasComponent},
+  { path: 'ventas', component:  VentasComponent,canActivate: [authGuard]},
   { path: 'clienteingreso', component: ClienteIngresoComponent },
   { path: 'clientelista', component: ClienteListaComponent },
-  { path: 'pedido', component: PedidoComponent},
+  { path: 'pedido', component: PedidoComponent, canActivate: [authGuard]},
 
   { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard] },
 
